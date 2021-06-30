@@ -9,4 +9,9 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Tetris");
     }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
 }
