@@ -15,11 +15,11 @@ public class GameMananger : MonoBehaviour
 
     public float tempoMudaLevel, resetTime, timer, tempoParaMoverPeca;
 
-    public float velocidadeQueda = 0.1f;
+    public  float velocidadeQueda = 0.15f;
 
     public bool pontuou, primeiraContagem;
 
-    int tempoQueda = 30;
+    int tempoQueda = 36;
 
     int i = 1;
 
@@ -48,13 +48,20 @@ public class GameMananger : MonoBehaviour
 
         if (tempoMudaLevel > tempoQueda)
         {
-            velocidadeQueda += 0.1f;
+            velocidadeQueda += 0.075f;
 
             i++;
             txtLevel.text = "" + i ;
 
             tempoMudaLevel = 0;
             tempoQueda += 1;
+        }
+
+        if (Input.GetKeyDown("m"))
+        {
+            pontos += 100;
+            pontosAux = 0;
+            txtScore.text = "" + pontos;
         }
 
 
@@ -173,6 +180,10 @@ public class GameMananger : MonoBehaviour
 
     }
 
+    
+
+
+
     public bool LinhaCheia(int y)
     {
         // Faz a verificação em x referente ao y informado. 
@@ -246,11 +257,65 @@ public class GameMananger : MonoBehaviour
 
     public void GameOver()
     {
+        int score1, score2, score3, aux1, aux2;
+        
+        score1 = PlayerPrefs.GetInt("Score1");
+        score2 = PlayerPrefs.GetInt("Score2");
+        score3 = PlayerPrefs.GetInt("Score3");
+
+
+
+
+        // Verifica se o score obtido é o score mais alto de todos os tempos
+        if (pontos > score1)
+        {
+
+            // Adiciona o valor obtido na partida atual ao maior high score
+            PlayerPrefs.SetInt("Score1", pontos);
+
+
+            // Movimenta o score maior anterior para essa posição
+            PlayerPrefs.SetInt("Score2", score1);
+
+
+            // Movimenta o score maior anterior para essa posição
+            PlayerPrefs.SetInt("Score3", score2);
+
+
+        }
+        else
+        {
+            // Verifica se o score obtido é o segundo mais alto de todos os tempos
+            if (pontos > score2)
+            {
+                PlayerPrefs.SetInt("Score2", pontos);
+
+                // Movimenta o score maior anterior para essa posição
+                PlayerPrefs.SetInt("Score3", score2);
+
+            }
+            else
+            {
+                // Verifica se o score obtido é o terceiro mais alto de todos os tempos
+                if (pontos > score3)
+                {
+                    PlayerPrefs.SetInt("Score3", pontos);
+                }
+            }
+        }
+
+
+
+
+
         SceneManager.LoadScene("GameOver");
     }
 
     public void Save()
     {
+
+
+
         SaveSystem.SaveScore(this);
     }
 

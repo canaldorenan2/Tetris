@@ -15,6 +15,8 @@ public class SpawnTetro : MonoBehaviour
     public Text tetrisText;
     int random;
 
+    float aux;
+
     Transform instanciaPeca;
     Tetro tetroScript;
 
